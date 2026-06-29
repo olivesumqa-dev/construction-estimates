@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Strucforge Estimates Pro v5.0</string>
-    <string name="title_activity_main">Strucforge Estimates Pro v5.0</string>
+    <string name="app_name">StrucForge Estimates</string>
+    <string name="title_activity_main">StrucForge Estimates</string>
     <string name="package_name">com.strucforge.estimates</string>
     <string name="custom_url_scheme">com.strucforge.estimates</string>
 </resources>

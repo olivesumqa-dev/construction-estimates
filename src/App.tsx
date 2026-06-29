@@ -544,7 +544,7 @@ export default function App() {
           </div>
           <div>
             <h1 className="text-sm sm:text-base md:text-lg font-semibold tracking-tight text-white flex items-center gap-1.5">
-              Strucforge <span className="text-slate-400 font-normal text-xs hidden sm:inline">Estimates Pro v5.0</span>
+              StrucForge <span className="text-slate-400 font-normal text-xs hidden sm:inline">Estimates</span>
             </h1>
           </div>
         </div>
@@ -734,7 +734,7 @@ export default function App() {
 
           {/* Footer branding */}
           <div className="p-4 border-t border-slate-350 text-[10px] font-mono text-slate-500 leading-normal bg-slate-200/50 mt-auto">
-            <p className="text-slate-600 font-semibold font-sans">© Strucforge Estimates Pro v5.0</p>
+            <p className="text-slate-600 font-semibold font-sans">© StrucForge Estimates</p>
             <p className="mt-1 text-slate-500 font-sans">Compliant with Philippine Construction standards.</p>
           </div>
         </aside>

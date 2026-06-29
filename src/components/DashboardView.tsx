@@ -1,5 +1,5 @@
 import React from "react";
-import { Download, Building, DollarSign, Layers, MapPin, User, Calendar, Percent, Printer, FileSpreadsheet } from "lucide-react";
+import { Building, Wallet, Layers, MapPin, User, Calendar, Percent, Printer, FileSpreadsheet, Save } from "lucide-react";
 import { ProjectInfo, MaterialItem, LaborItem, EquipmentItem, ConcreteElement, FormworkElement, CHBWallElement, TileElement, DoorWindowElement, RoofingElement, PaintingElement, DivisionTotals } from "../types";
 import { computeMarkup } from "../utils/calculations";
 import { generateEstimatingWorkbook } from "../utils/excelGenerator";
@@ -57,11 +57,23 @@ export default function DashboardView({
         painting
       });
 
+      const fileName = `${projectInfo.projectName.replace(/\s+/g, "_")}_Estimating_Workbook.xlsx`;
       const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+      const file = new File([blob], fileName, { type: blob.type });
+
+      if (navigator.canShare?.({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: "StrucForge Estimates Workbook",
+          text: "Excel estimating workbook exported from StrucForge Estimates."
+        });
+        return;
+      }
+
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `${projectInfo.projectName.replace(/\s+/g, "_")}_Estimating_Workbook.xlsx`;
+      link.download = fileName;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -74,6 +86,52 @@ export default function DashboardView({
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleExportJson = async () => {
+    const fileName = `${projectInfo.projectName.replace(/\s+/g, "_") || "StrucForge_Estimate"}_Estimate.json`;
+    const payload = {
+      exportedAt: new Date().toISOString(),
+      appName: "StrucForge Estimates",
+      projectInfo,
+      materials,
+      labor,
+      equipment,
+      concrete,
+      formworks,
+      chb,
+      tiles,
+      doorsWindows,
+      roofing,
+      painting,
+      divisionTotals,
+      summary: {
+        directCostTotal,
+        markups,
+        grandTotal,
+        costPerSqm
+      }
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const file = new File([blob], fileName, { type: blob.type });
+
+    if (navigator.canShare?.({ files: [file] })) {
+      await navigator.share({
+        files: [file],
+        title: "StrucForge Estimate JSON",
+        text: "Saved estimate data exported from StrucForge Estimates."
+      });
+      return;
+    }
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   // Division chart bars
@@ -104,7 +162,7 @@ export default function DashboardView({
             <span className="text-xs text-slate-400 block pb-0">Grand Total with Markups + VAT</span>
           </div>
           <div className="bg-slate-800 p-3 rounded-lg text-orange-400 shrink-0">
-            <DollarSign className="w-6 h-6" />
+            <Wallet className="w-6 h-6" />
           </div>
         </div>
 
@@ -203,6 +261,15 @@ export default function DashboardView({
             >
               <FileSpreadsheet className="w-5 h-5" />
               Download Automated Excel
+            </button>
+
+            <button
+              onClick={handleExportJson}
+              className="w-full border border-emerald-200 hover:bg-emerald-50 text-emerald-700 font-medium py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition cursor-pointer font-sans"
+              id="btn-export-json"
+            >
+              <Save className="w-4 h-4" />
+              Save Estimate JSON
             </button>
 
             <button

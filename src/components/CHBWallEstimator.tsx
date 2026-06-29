@@ -1,6 +1,6 @@
 import React from "react";
 import { CHBWallElement, MaterialItem, DivisionCost } from "../types";
-import { Plus, Trash2, HelpCircle } from "lucide-react";
+import { Plus, Trash2, HelpCircle, ArrowUp, ArrowDown } from "lucide-react";
 import { calculateCHBWallMaterials } from "../utils/calculations";
 
 interface CHBWallEstimatorProps {
@@ -35,6 +35,14 @@ export default function CHBWallEstimator({ elements, materials, onChange, divisi
 
   const handleDeleteElement = (id: string) => {
     onChange(elements.filter(item => item.id !== id));
+  };
+
+  const handleMoveElement = (index: number, direction: -1 | 1) => {
+    const nextIndex = index + direction;
+    if (nextIndex < 0 || nextIndex >= elements.length) return;
+    const updated = [...elements];
+    [updated[index], updated[nextIndex]] = [updated[nextIndex], updated[index]];
+    onChange(updated);
   };
 
   return (
@@ -99,7 +107,7 @@ export default function CHBWallEstimator({ elements, materials, onChange, divisi
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 font-sans">
-            {elements.map((item) => {
+            {elements.map((item, index) => {
               const mats = calculateCHBWallMaterials(item);
               return (
                 <tr key={item.id} className="hover:bg-slate-50/30">
@@ -223,12 +231,31 @@ export default function CHBWallEstimator({ elements, materials, onChange, divisi
 
                   {/* Actions */}
                   <td className="px-3 py-3 text-center">
-                    <button
-                      onClick={() => handleDeleteElement(item.id)}
-                      className="text-slate-400 hover:text-red-500 p-1 rounded-md transition cursor-pointer"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <div className="flex items-center justify-center gap-1">
+                      <button
+                        onClick={() => handleMoveElement(index, -1)}
+                        disabled={index === 0}
+                        className="text-slate-400 hover:text-slate-700 disabled:opacity-30 disabled:hover:text-slate-400 p-1 rounded-md transition cursor-pointer disabled:cursor-default"
+                        title="Move item up"
+                      >
+                        <ArrowUp className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleMoveElement(index, 1)}
+                        disabled={index === elements.length - 1}
+                        className="text-slate-400 hover:text-slate-700 disabled:opacity-30 disabled:hover:text-slate-400 p-1 rounded-md transition cursor-pointer disabled:cursor-default"
+                        title="Move item down"
+                      >
+                        <ArrowDown className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteElement(item.id)}
+                        className="text-slate-400 hover:text-red-500 p-1 rounded-md transition cursor-pointer"
+                        title="Delete item"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </td>
 
                 </tr>

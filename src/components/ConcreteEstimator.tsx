@@ -1,6 +1,6 @@
 import React from "react";
 import { ConcreteElement, MaterialItem, DivisionCost } from "../types";
-import { Plus, Trash2, Layers, HardHat, FileText, CheckCircle, HelpCircle } from "lucide-react";
+import { Plus, Trash2, Layers, HardHat, FileText, CheckCircle, HelpCircle, ArrowUp, ArrowDown } from "lucide-react";
 import { calculateConcreteVolume, calculateConcreteMaterials, calculateConcreteRebar, REBAR_KG_PER_M } from "../utils/calculations";
 
 interface ConcreteEstimatorProps {
@@ -38,6 +38,25 @@ export default function ConcreteEstimator({ elements, materials, onChange, divis
 
   const handleDeleteElement = (id: string) => {
     onChange(elements.filter(item => item.id !== id));
+  };
+
+  const handleMoveElement = (index: number, direction: -1 | 1) => {
+    const nextIndex = index + direction;
+    if (nextIndex < 0 || nextIndex >= elements.length) return;
+    const updated = [...elements];
+    [updated[index], updated[nextIndex]] = [updated[nextIndex], updated[index]];
+    onChange(updated);
+  };
+
+  const getSixMeterBarCount = (item: ConcreteElement) => {
+    const steel = calculateConcreteRebar(item);
+    const mainBars = Math.ceil((steel.mainWeightKg || 0) / (6 * REBAR_KG_PER_M[item.rebarDiameter]));
+    const stirrupBars = Math.ceil((steel.stirrupWeightKg || 0) / (6 * REBAR_KG_PER_M[10]));
+    return {
+      mainBars,
+      stirrupBars,
+      totalBars: mainBars + stirrupBars
+    };
   };
 
   return (
@@ -96,15 +115,16 @@ export default function ConcreteEstimator({ elements, materials, onChange, divis
               <th className="px-3 py-2 w-24">STEEL (REF)</th>
               <th className="px-2 py-2 text-right">VOL (cu.m.)</th>
               <th className="px-2 py-2 text-right">MATERIALS</th>
-              <th className="px-2 py-2 text-right">STEEL WEIGHT</th>
+              <th className="px-2 py-2 text-right">6M REBARS</th>
               <th className="px-3 py-2 text-center w-12">ACTION</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 font-sans">
-            {elements.map((item) => {
+            {elements.map((item, index) => {
               const vol = calculateConcreteVolume(item);
               const mats = calculateConcreteMaterials(item);
               const steel = calculateConcreteRebar(item);
+              const sixMeterBars = getSixMeterBarCount(item);
 
               return (
                 <tr key={item.id} className="hover:bg-slate-50/30">
@@ -244,22 +264,45 @@ export default function ConcreteEstimator({ elements, materials, onChange, divis
                     </div>
                   </td>
 
-                  {/* Steel Weight */}
+                  {/* Steel 6m Bar Quantity */}
                   <td className="px-2 py-3 text-right">
                     <div className="text-[10px] leading-tight text-slate-600 font-mono">
-                      <p><strong className="text-slate-800 font-bold">{steel.totalWeightKg.toLocaleString("en-US", { maximumFractionDigits: 1 })} kg</strong> steel</p>
+                      <p><strong className="text-slate-800 font-bold">{sixMeterBars.totalBars.toLocaleString("en-US")} pcs</strong> 6m bars</p>
+                      <p><strong className="text-slate-800">{steel.totalWeightKg.toLocaleString("en-US", { maximumFractionDigits: 1 })} kg</strong> steel ref.</p>
+                      {sixMeterBars.stirrupBars > 0 && (
+                        <p><strong className="text-slate-800">{sixMeterBars.mainBars}</strong> main + <strong className="text-slate-800">{sixMeterBars.stirrupBars}</strong> stirrup</p>
+                      )}
                       <p><strong className="text-slate-800">{steel.tieWireKg} kg</strong> tie wire</p>
                     </div>
                   </td>
 
                   {/* Actions */}
                   <td className="px-3 py-3 text-center">
-                    <button
-                      onClick={() => handleDeleteElement(item.id)}
-                      className="text-slate-400 hover:text-red-500 p-1 rounded-md transition cursor-pointer"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <div className="flex items-center justify-center gap-1">
+                      <button
+                        onClick={() => handleMoveElement(index, -1)}
+                        disabled={index === 0}
+                        className="text-slate-400 hover:text-slate-700 disabled:opacity-30 disabled:hover:text-slate-400 p-1 rounded-md transition cursor-pointer disabled:cursor-default"
+                        title="Move item up"
+                      >
+                        <ArrowUp className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleMoveElement(index, 1)}
+                        disabled={index === elements.length - 1}
+                        className="text-slate-400 hover:text-slate-700 disabled:opacity-30 disabled:hover:text-slate-400 p-1 rounded-md transition cursor-pointer disabled:cursor-default"
+                        title="Move item down"
+                      >
+                        <ArrowDown className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteElement(item.id)}
+                        className="text-slate-400 hover:text-red-500 p-1 rounded-md transition cursor-pointer"
+                        title="Delete item"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </td>
 
                 </tr>

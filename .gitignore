@@ -1,6 +1,8 @@
 node_modules/
 build/
 dist/
+.vercel/
+release-file-pack/
 android/.gradle/
 android/**/build/
 coverage/
@@ -10,3 +12,5 @@ desktop.ini
 .env*
 !.env.example
 *.zip
+
+.vercel

@@ -132,7 +132,18 @@ export default function ProjectInfoView({ projectInfo, onChange }: ProjectInfoVi
                   Overhead Costs & Administration
                   <HelpCircle className="w-3.5 h-3.5 text-slate-400 cursor-help" title="Office rent, admin staff salaries, field supervision" />
                 </span>
-                <span className="font-mono text-blue-600 font-bold">{projectInfo.overheadPercent}%</span>
+                <div className="flex items-center gap-1">
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.5"
+                    value={projectInfo.overheadPercent}
+                    onChange={(e) => handleInputChange("overheadPercent", e.target.value)}
+                    className="w-20 bg-slate-50 border border-slate-200 rounded-md py-1 px-2 text-right font-mono text-blue-700 outline-hidden focus:border-blue-500"
+                  />
+                  <span className="font-mono text-blue-600 font-bold">%</span>
+                </div>
               </div>
               <input
                 type="range"
@@ -152,7 +163,18 @@ export default function ProjectInfoView({ projectInfo, onChange }: ProjectInfoVi
                   Contingency Reserves
                   <HelpCircle className="w-3.5 h-3.5 text-slate-400 cursor-help" title="Mitigates unforeseen site delays, bad weather, or custom changes" />
                 </span>
-                <span className="font-mono text-blue-600 font-bold">{projectInfo.contingencyPercent}%</span>
+                <div className="flex items-center gap-1">
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.5"
+                    value={projectInfo.contingencyPercent}
+                    onChange={(e) => handleInputChange("contingencyPercent", e.target.value)}
+                    className="w-20 bg-slate-50 border border-slate-200 rounded-md py-1 px-2 text-right font-mono text-blue-700 outline-hidden focus:border-blue-500"
+                  />
+                  <span className="font-mono text-blue-600 font-bold">%</span>
+                </div>
               </div>
               <input
                 type="range"
@@ -171,7 +193,18 @@ export default function ProjectInfoView({ projectInfo, onChange }: ProjectInfoVi
                 <span className="flex items-center gap-1">
                   Contractor Profit Margin des.
                 </span>
-                <span className="font-mono text-blue-600 font-bold">{projectInfo.profitPercent}%</span>
+                <div className="flex items-center gap-1">
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.5"
+                    value={projectInfo.profitPercent}
+                    onChange={(e) => handleInputChange("profitPercent", e.target.value)}
+                    className="w-20 bg-slate-50 border border-slate-200 rounded-md py-1 px-2 text-right font-mono text-blue-700 outline-hidden focus:border-blue-500"
+                  />
+                  <span className="font-mono text-blue-600 font-bold">%</span>
+                </div>
               </div>
               <input
                 type="range"
@@ -190,7 +223,18 @@ export default function ProjectInfoView({ projectInfo, onChange }: ProjectInfoVi
                 <span className="flex items-center gap-1">
                   Mobilization / Demobilization logistics
                 </span>
-                <span className="font-mono text-blue-600 font-bold">{projectInfo.mobilizationPercent}%</span>
+                <div className="flex items-center gap-1">
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.5"
+                    value={projectInfo.mobilizationPercent}
+                    onChange={(e) => handleInputChange("mobilizationPercent", e.target.value)}
+                    className="w-20 bg-slate-50 border border-slate-200 rounded-md py-1 px-2 text-right font-mono text-blue-700 outline-hidden focus:border-blue-500"
+                  />
+                  <span className="font-mono text-blue-600 font-bold">%</span>
+                </div>
               </div>
               <input
                 type="range"
@@ -209,7 +253,18 @@ export default function ProjectInfoView({ projectInfo, onChange }: ProjectInfoVi
                 <span className="flex items-center gap-1">
                   Philippine Value Added Tax (VAT)
                 </span>
-                <span className="font-mono text-blue-600 font-bold">{projectInfo.vatPercent}%</span>
+                <div className="flex items-center gap-1">
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.5"
+                    value={projectInfo.vatPercent}
+                    onChange={(e) => handleInputChange("vatPercent", e.target.value)}
+                    className="w-20 bg-slate-50 border border-slate-200 rounded-md py-1 px-2 text-right font-mono text-blue-700 outline-hidden focus:border-blue-500"
+                  />
+                  <span className="font-mono text-blue-600 font-bold">%</span>
+                </div>
               </div>
               <input
                 type="range"

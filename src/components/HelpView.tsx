@@ -22,13 +22,13 @@ export default function HelpView() {
       <div className="bg-white border border-slate-200 rounded-xl p-4 md:p-6 shadow-xs space-y-3">
         <div className="flex items-center gap-2">
           <Info className="w-5 h-5 text-orange-500" />
-          <h2 className="text-lg font-bold text-slate-900">About Strucforge Estimates Pro v5.0</h2>
+          <h2 className="text-lg font-bold text-slate-900">About StrucForge Estimates</h2>
         </div>
         <p className="text-sm text-slate-600 leading-relaxed">
-          Strucforge Estimates Pro v5.0 is a construction cost estimator for contractors, engineers, architects, foremen, quantity surveyors, estimators, and construction students. It helps prepare project information, material and labor cost breakdowns, saved estimate revisions, printable BOQ reports, and spreadsheet exports.
+          StrucForge Estimates is a construction cost estimator for contractors, engineers, architects, foremen, quantity surveyors, estimators, and construction students. It helps prepare project information, material and labor cost breakdowns, saved estimate revisions, printable BOQ reports, and spreadsheet exports.
         </p>
         <p className="text-xs text-slate-500 leading-relaxed">
-          App category: Business / Productivity / Construction Tools. Current data storage is local to this device through browser or Android WebView storage.
+          App category: Business / Productivity / Construction Tools. Internal product version: Pro v5.0. Current data storage is local to this device through browser or Android WebView storage.
         </p>
       </div>
 
@@ -39,7 +39,7 @@ export default function HelpView() {
         </div>
         <div className="space-y-2 text-sm text-slate-600 leading-relaxed">
           <p>
-            Strucforge Estimates Pro v5.0 stores project details, price database edits, calculator inputs, and saved estimate revisions locally on your device. These records are used to restore your estimates and generate reports.
+            StrucForge Estimates stores project details, price database edits, calculator inputs, and saved estimate revisions locally on your device. These records are used to restore your estimates and generate reports.
           </p>
           <p>
             The app does not require account sign-in and does not intentionally upload your estimate data to a cloud service in the current packaged app configuration.
