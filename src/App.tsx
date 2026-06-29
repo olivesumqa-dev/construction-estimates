@@ -14,19 +14,7 @@ import {
   DivisionTotals
 } from "./types";
 
-import { 
-  DEFAULT_PROJECT_INFO, 
-  DEFAULT_MATERIALS, 
-  DEFAULT_LABOR, 
-  DEFAULT_EQUIPMENT, 
-  DEFAULT_CONCRETE, 
-  DEFAULT_FORMWORKS, 
-  DEFAULT_CHB_WALLS, 
-  DEFAULT_TILINGS, 
-  DEFAULT_DOORS_WINDOWS, 
-  DEFAULT_ROOFING, 
-  DEFAULT_PAINTING 
-} from "./data";
+import defaultEstimateData from "./defaultEstimate.json";
 
 import { 
   calculateConcreteVolume, 
@@ -47,7 +35,7 @@ import {
   calculateRoofingLaborAndEquip
 } from "./utils/calculations";
 
-import DashboardView from "./components/DashboardView";
+import DashboardView, { EstimateFileData } from "./components/DashboardView";
 import ProjectInfoView from "./components/ProjectInfoView";
 import ConcreteEstimator from "./components/ConcreteEstimator";
 import FormworkEstimator from "./components/FormworkEstimator";
@@ -87,6 +75,24 @@ import {
   FlameKindling
 } from "lucide-react";
 
+type DefaultEstimateTemplate = {
+  projectInfo: ProjectInfo;
+  materials: MaterialItem[];
+  labor: LaborItem[];
+  equipment: EquipmentItem[];
+  concrete: ConcreteElement[];
+  formworks: FormworkElement[];
+  chb: CHBWallElement[];
+  tiles: TileElement[];
+  doorsWindows: DoorWindowElement[];
+  roofing: RoofingElement[];
+  painting: PaintingElement[];
+};
+
+const DEFAULT_ESTIMATE = defaultEstimateData as DefaultEstimateTemplate;
+
+const cloneTemplate = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
+
 export default function App() {
   // Navigation State
   const [activeTab, setActiveTab] = useState<
@@ -121,12 +127,12 @@ export default function App() {
   // Core Engineering States
   const [projectInfo, setProjectInfo] = useState<ProjectInfo>(() => {
     const saved = localStorage.getItem("estim_projectInfo");
-    return saved ? JSON.parse(saved) : DEFAULT_PROJECT_INFO;
+    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.projectInfo);
   });
 
   const [materials, setMaterials] = useState<MaterialItem[]>(() => {
     const saved = localStorage.getItem("estim_materials");
-    return saved ? JSON.parse(saved) : DEFAULT_MATERIALS;
+    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.materials);
   });
 
   const [labor, setLabor] = useState<LaborItem[]>(() => {
@@ -134,14 +140,14 @@ export default function App() {
     if (saved) {
       const parsed = JSON.parse(saved) as LaborItem[];
       const merged = [...parsed];
-      DEFAULT_LABOR.forEach((d) => {
+      DEFAULT_ESTIMATE.labor.forEach((d) => {
         if (!merged.some((item) => item.id === d.id)) {
           merged.push(d);
         }
       });
       return merged;
     }
-    return DEFAULT_LABOR;
+    return cloneTemplate(DEFAULT_ESTIMATE.labor);
   });
 
   const [equipment, setEquipment] = useState<EquipmentItem[]>(() => {
@@ -149,49 +155,49 @@ export default function App() {
     if (saved) {
       const parsed = JSON.parse(saved) as EquipmentItem[];
       const merged = [...parsed];
-      DEFAULT_EQUIPMENT.forEach((d) => {
+      DEFAULT_ESTIMATE.equipment.forEach((d) => {
         if (!merged.some((item) => item.id === d.id)) {
           merged.push(d);
         }
       });
       return merged;
     }
-    return DEFAULT_EQUIPMENT;
+    return cloneTemplate(DEFAULT_ESTIMATE.equipment);
   });
 
   const [concrete, setConcrete] = useState<ConcreteElement[]>(() => {
     const saved = localStorage.getItem("estim_concrete");
-    return saved ? JSON.parse(saved) : DEFAULT_CONCRETE;
+    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.concrete);
   });
 
   const [formworks, setFormworks] = useState<FormworkElement[]>(() => {
     const saved = localStorage.getItem("estim_formworks");
-    return saved ? JSON.parse(saved) : DEFAULT_FORMWORKS;
+    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.formworks);
   });
 
   const [chb, setChb] = useState<CHBWallElement[]>(() => {
     const saved = localStorage.getItem("estim_chb");
-    return saved ? JSON.parse(saved) : DEFAULT_CHB_WALLS;
+    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.chb);
   });
 
   const [tiles, setTiles] = useState<TileElement[]>(() => {
     const saved = localStorage.getItem("estim_tiles");
-    return saved ? JSON.parse(saved) : DEFAULT_TILINGS;
+    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.tiles);
   });
 
   const [doorsWindows, setDoorsWindows] = useState<DoorWindowElement[]>(() => {
     const saved = localStorage.getItem("estim_doorsWindows");
-    return saved ? JSON.parse(saved) : DEFAULT_DOORS_WINDOWS;
+    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.doorsWindows);
   });
 
   const [roofing, setRoofing] = useState<RoofingElement[]>(() => {
     const saved = localStorage.getItem("estim_roofing");
-    return saved ? JSON.parse(saved) : DEFAULT_ROOFING;
+    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.roofing);
   });
 
   const [painting, setPainting] = useState<PaintingElement[]>(() => {
     const saved = localStorage.getItem("estim_painting");
-    return saved ? JSON.parse(saved) : DEFAULT_PAINTING;
+    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.painting);
   });
 
   // Automatically persist state changes in LocalStorage
@@ -435,17 +441,17 @@ export default function App() {
       localStorage.removeItem("estim_roofing");
       localStorage.removeItem("estim_painting");
       
-      setProjectInfo(DEFAULT_PROJECT_INFO);
-      setMaterials(DEFAULT_MATERIALS);
-      setLabor(DEFAULT_LABOR);
-      setEquipment(DEFAULT_EQUIPMENT);
-      setConcrete(DEFAULT_CONCRETE);
-      setFormworks(DEFAULT_FORMWORKS);
-      setChb(DEFAULT_CHB_WALLS);
-      setTiles(DEFAULT_TILINGS);
-      setDoorsWindows(DEFAULT_DOORS_WINDOWS);
-      setRoofing(DEFAULT_ROOFING);
-      setPainting(DEFAULT_PAINTING);
+      setProjectInfo(cloneTemplate(DEFAULT_ESTIMATE.projectInfo));
+      setMaterials(cloneTemplate(DEFAULT_ESTIMATE.materials));
+      setLabor(cloneTemplate(DEFAULT_ESTIMATE.labor));
+      setEquipment(cloneTemplate(DEFAULT_ESTIMATE.equipment));
+      setConcrete(cloneTemplate(DEFAULT_ESTIMATE.concrete));
+      setFormworks(cloneTemplate(DEFAULT_ESTIMATE.formworks));
+      setChb(cloneTemplate(DEFAULT_ESTIMATE.chb));
+      setTiles(cloneTemplate(DEFAULT_ESTIMATE.tiles));
+      setDoorsWindows(cloneTemplate(DEFAULT_ESTIMATE.doorsWindows));
+      setRoofing(cloneTemplate(DEFAULT_ESTIMATE.roofing));
+      setPainting(cloneTemplate(DEFAULT_ESTIMATE.painting));
       setActiveTab("dashboard");
     }
   };
@@ -465,6 +471,21 @@ export default function App() {
     setActiveTab("dashboard");
   };
 
+  const handleOpenEstimate = (estimate: EstimateFileData) => {
+    setProjectInfo(cloneTemplate(estimate.projectInfo));
+    setMaterials(cloneTemplate(estimate.materials));
+    setLabor(cloneTemplate(estimate.labor));
+    setEquipment(cloneTemplate(estimate.equipment));
+    setConcrete(cloneTemplate(estimate.concrete));
+    setFormworks(cloneTemplate(estimate.formworks));
+    setChb(cloneTemplate(estimate.chb));
+    setTiles(cloneTemplate(estimate.tiles));
+    setDoorsWindows(cloneTemplate(estimate.doorsWindows));
+    setRoofing(cloneTemplate(estimate.roofing));
+    setPainting(cloneTemplate(estimate.painting));
+    setActiveTab("dashboard");
+  };
+
   const handleResetAll = () => {
     if (window.confirm("Perform a factory reset? All estimating configurations and saved estimates database will be permanently cleared.")) {
       localStorage.removeItem("estim_projectInfo");
@@ -480,17 +501,17 @@ export default function App() {
       localStorage.removeItem("estim_painting");
       localStorage.removeItem("strucforge_saved_estimates");
       
-      setProjectInfo(DEFAULT_PROJECT_INFO);
-      setMaterials(DEFAULT_MATERIALS);
-      setLabor(DEFAULT_LABOR);
-      setEquipment(DEFAULT_EQUIPMENT);
-      setConcrete(DEFAULT_CONCRETE);
-      setFormworks(DEFAULT_FORMWORKS);
-      setChb(DEFAULT_CHB_WALLS);
-      setTiles(DEFAULT_TILINGS);
-      setDoorsWindows(DEFAULT_DOORS_WINDOWS);
-      setRoofing(DEFAULT_ROOFING);
-      setPainting(DEFAULT_PAINTING);
+      setProjectInfo(cloneTemplate(DEFAULT_ESTIMATE.projectInfo));
+      setMaterials(cloneTemplate(DEFAULT_ESTIMATE.materials));
+      setLabor(cloneTemplate(DEFAULT_ESTIMATE.labor));
+      setEquipment(cloneTemplate(DEFAULT_ESTIMATE.equipment));
+      setConcrete(cloneTemplate(DEFAULT_ESTIMATE.concrete));
+      setFormworks(cloneTemplate(DEFAULT_ESTIMATE.formworks));
+      setChb(cloneTemplate(DEFAULT_ESTIMATE.chb));
+      setTiles(cloneTemplate(DEFAULT_ESTIMATE.tiles));
+      setDoorsWindows(cloneTemplate(DEFAULT_ESTIMATE.doorsWindows));
+      setRoofing(cloneTemplate(DEFAULT_ESTIMATE.roofing));
+      setPainting(cloneTemplate(DEFAULT_ESTIMATE.painting));
       setActiveTab("dashboard");
     }
   };
@@ -539,12 +560,14 @@ export default function App() {
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
 
-          <div className="w-8 h-8 bg-orange-600 rounded flex items-center justify-center font-bold text-white shrink-0 text-sm">
-            SF
-          </div>
+          <img
+            src="/LOGO-STRUCF.svg"
+            alt="StrucForge Estimates logo"
+            className="h-9 w-auto max-w-[150px] shrink-0 object-contain"
+          />
           <div>
             <h1 className="text-sm sm:text-base md:text-lg font-semibold tracking-tight text-white flex items-center gap-1.5">
-              StrucForge <span className="text-slate-400 font-normal text-xs hidden sm:inline">Estimates</span>
+              <span className="text-slate-200 font-semibold">Estimates</span>
             </h1>
           </div>
         </div>
@@ -757,6 +780,7 @@ export default function App() {
               roofing={roofing}
               painting={painting}
               divisionTotals={divisionTotals}
+              onOpenEstimate={handleOpenEstimate}
             />
           )}
 

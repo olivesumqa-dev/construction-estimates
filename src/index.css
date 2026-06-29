@@ -20,7 +20,27 @@
 }
 
 @media print {
+  @page {
+    margin: 24mm 14mm 16mm;
+  }
+
   body {
     background: #ffffff;
+  }
+
+  #printable-proposal-preview,
+  #boq-sheet {
+    padding-top: 88px !important;
+  }
+
+  #printable-proposal-preview .print-header,
+  #boq-sheet .print-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0 0 12px;
+    background: #ffffff;
+    z-index: 10;
   }
 }

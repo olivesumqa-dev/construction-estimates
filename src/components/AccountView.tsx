@@ -16,15 +16,24 @@ export default function AccountView({
   onResetAll
 }: AccountViewProps) {
   const [profileName, setProfileName] = useState(projectInfo.estimator || "Engr. Juan Dela Cruz");
-  const [companyName, setCompanyName] = useState("StrucForge Construction Services");
+  const [companyName, setCompanyName] = useState(projectInfo.companyName || "O.A.S. CONSTRUCTION GROUP");
+  const [companySubtitle, setCompanySubtitle] = useState(projectInfo.companySubtitle || "Professional Quantity Surveying & Structural Takeoff Solutions");
   const [licenseNo, setLicenseNo] = useState("PRC-CIVIL-0129481");
   const [success, setSuccess] = useState("");
+
+  useEffect(() => {
+    setProfileName(projectInfo.estimator || "Engr. Juan Dela Cruz");
+    setCompanyName(projectInfo.companyName || "O.A.S. CONSTRUCTION GROUP");
+    setCompanySubtitle(projectInfo.companySubtitle || "Professional Quantity Surveying & Structural Takeoff Solutions");
+  }, [projectInfo.estimator, projectInfo.companyName, projectInfo.companySubtitle]);
 
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
     onChangeProjectInfo({
       ...projectInfo,
-      estimator: profileName
+      estimator: profileName,
+      companyName,
+      companySubtitle
     });
     setSuccess("Professional profile successfully saved and integrated!");
     setTimeout(() => setSuccess(""), 4000);
@@ -81,6 +90,16 @@ export default function AccountView({
                 type="text"
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-300 text-slate-850 rounded-lg px-3 py-2 text-xs focus:outline-hidden focus:ring-2 focus:ring-orange-500"
+              />
+            </div>
+
+            <div>
+              <label className="text-[11px] font-bold text-slate-500 uppercase block mb-1">Company Header Subtitle</label>
+              <input
+                type="text"
+                value={companySubtitle}
+                onChange={(e) => setCompanySubtitle(e.target.value)}
                 className="w-full bg-slate-50 border border-slate-300 text-slate-850 rounded-lg px-3 py-2 text-xs focus:outline-hidden focus:ring-2 focus:ring-orange-500"
               />
             </div>

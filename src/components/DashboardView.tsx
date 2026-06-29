@@ -1,5 +1,8 @@
-import React from "react";
-import { Building, Wallet, Layers, MapPin, User, Calendar, Percent, Printer, FileSpreadsheet, Save } from "lucide-react";
+import React, { useRef } from "react";
+import { Capacitor } from "@capacitor/core";
+import { Directory, Encoding, Filesystem } from "@capacitor/filesystem";
+import { Share } from "@capacitor/share";
+import { Building, Wallet, Layers, MapPin, User, Calendar, Percent, Printer, FileSpreadsheet, Save, FolderOpen } from "lucide-react";
 import { ProjectInfo, MaterialItem, LaborItem, EquipmentItem, ConcreteElement, FormworkElement, CHBWallElement, TileElement, DoorWindowElement, RoofingElement, PaintingElement, DivisionTotals } from "../types";
 import { computeMarkup } from "../utils/calculations";
 import { generateEstimatingWorkbook } from "../utils/excelGenerator";
@@ -17,6 +20,21 @@ interface DashboardViewProps {
   roofing: RoofingElement[];
   painting: PaintingElement[];
   divisionTotals: DivisionTotals;
+  onOpenEstimate: (estimate: EstimateFileData) => void;
+}
+
+export interface EstimateFileData {
+  projectInfo: ProjectInfo;
+  materials: MaterialItem[];
+  labor: LaborItem[];
+  equipment: EquipmentItem[];
+  concrete: ConcreteElement[];
+  formworks: FormworkElement[];
+  chb: CHBWallElement[];
+  tiles: TileElement[];
+  doorsWindows: DoorWindowElement[];
+  roofing: RoofingElement[];
+  painting: PaintingElement[];
 }
 
 export default function DashboardView({
@@ -31,8 +49,10 @@ export default function DashboardView({
   doorsWindows,
   roofing,
   painting,
-  divisionTotals
+  divisionTotals,
+  onOpenEstimate
 }: DashboardViewProps) {
+  const openEstimateInputRef = useRef<HTMLInputElement>(null);
   
   // Computations
   const directCostTotal = Object.values(divisionTotals).reduce((sum, v) => sum + v.total, 0);
@@ -88,6 +108,18 @@ export default function DashboardView({
     window.print();
   };
 
+  const downloadJsonInBrowser = (fileName: string, jsonText: string) => {
+    const blob = new Blob([jsonText], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   const handleExportJson = async () => {
     const fileName = `${projectInfo.projectName.replace(/\s+/g, "_") || "StrucForge_Estimate"}_Estimate.json`;
     const payload = {
@@ -112,26 +144,72 @@ export default function DashboardView({
         costPerSqm
       }
     };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const jsonText = JSON.stringify(payload, null, 2);
+
+    if (Capacitor.isNativePlatform()) {
+      try {
+        const savedFile = await Filesystem.writeFile({
+          path: fileName,
+          data: jsonText,
+          directory: Directory.Documents,
+          encoding: Encoding.UTF8
+        });
+
+        await Share.share({
+          title: "Save Estimates",
+          text: "StrucForge estimate file saved from the app.",
+          url: savedFile.uri,
+          dialogTitle: "Save Estimates"
+        });
+        return;
+      } catch (error) {
+        console.warn("Native estimate save failed, falling back to browser download", error);
+      }
+    }
+
+    const blob = new Blob([jsonText], { type: "application/json" });
     const file = new File([blob], fileName, { type: blob.type });
 
     if (navigator.canShare?.({ files: [file] })) {
-      await navigator.share({
-        files: [file],
-        title: "StrucForge Estimate JSON",
-        text: "Saved estimate data exported from StrucForge Estimates."
-      });
-      return;
+      try {
+        await navigator.share({
+          files: [file],
+          title: "Save Estimates",
+          text: "Saved estimate data exported from StrucForge Estimates."
+        });
+        return;
+      } catch (error) {
+        console.warn("Web Share save was not completed, falling back to download", error);
+      }
     }
 
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    downloadJsonInBrowser(fileName, jsonText);
+  };
+
+  const handleOpenEstimate = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    try {
+      const parsed = JSON.parse(await file.text()) as Partial<EstimateFileData>;
+      const requiredArrays: Array<keyof EstimateFileData> = [
+        "materials", "labor", "equipment", "concrete", "formworks", "chb",
+        "tiles", "doorsWindows", "roofing", "painting"
+      ];
+      const hasProjectInfo = parsed.projectInfo && typeof parsed.projectInfo === "object";
+      const hasAllSections = requiredArrays.every((key) => Array.isArray(parsed[key]));
+
+      if (!hasProjectInfo || !hasAllSections) {
+        throw new Error("The selected file is not a complete StrucForge estimate.");
+      }
+
+      onOpenEstimate(parsed as EstimateFileData);
+      alert(`Estimate opened: ${file.name}`);
+    } catch (error) {
+      console.error("Failed to open estimate", error);
+      alert(error instanceof Error ? error.message : "Unable to open the selected estimate file.");
+    }
   };
 
   // Division chart bars
@@ -263,14 +341,34 @@ export default function DashboardView({
               Download Automated Excel
             </button>
 
-            <button
-              onClick={handleExportJson}
-              className="w-full border border-emerald-200 hover:bg-emerald-50 text-emerald-700 font-medium py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition cursor-pointer font-sans"
-              id="btn-export-json"
-            >
-              <Save className="w-4 h-4" />
-              Save Estimate JSON
-            </button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <button
+                onClick={handleExportJson}
+                className="w-full border border-emerald-200 hover:bg-emerald-50 text-emerald-700 font-medium py-2.5 px-3 rounded-lg flex items-center justify-center gap-2 transition cursor-pointer font-sans"
+                id="btn-export-json"
+              >
+                <Save className="w-4 h-4" />
+                Save Estimates
+              </button>
+
+              <button
+                type="button"
+                onClick={() => openEstimateInputRef.current?.click()}
+                className="w-full border border-blue-200 hover:bg-blue-50 text-blue-700 font-medium py-2.5 px-3 rounded-lg flex items-center justify-center gap-2 transition cursor-pointer font-sans"
+                id="btn-open-json"
+              >
+                <FolderOpen className="w-4 h-4" />
+                Open Estimates
+              </button>
+              <input
+                ref={openEstimateInputRef}
+                type="file"
+                accept="application/json,.json"
+                onChange={handleOpenEstimate}
+                className="hidden"
+                aria-label="Choose estimate JSON file"
+              />
+            </div>
 
             <button
               onClick={handlePrint}
@@ -306,10 +404,13 @@ export default function DashboardView({
       <div className="bg-white border border-slate-200 rounded-xl p-8 shadow-xs max-w-4xl mx-auto space-y-6 print:m-0 print:p-0 print:border-none print:shadow-none" id="printable-proposal-preview">
         
         {/* Internal Header */}
-        <div className="flex justify-between items-start border-b-2 border-slate-900 pb-4">
-          <div className="space-y-1">
-            <span className="text-2xl font-serif text-slate-900 font-bold block">{projectInfo.companyName || "PHILIPPINES ESTIMATES INC."}</span>
-            <span className="text-xs font-mono text-slate-500 uppercase block tracking-wider">{projectInfo.companySubtitle || "Professional Quantity Surveying & Structural Takeoff Solutions"}</span>
+        <div className="print-header flex justify-between items-start border-b-2 border-slate-900 pb-4">
+          <div className="flex items-center gap-4">
+            <img src="/LOGO-STRUCF.png" alt="StrucForge logo" className="h-14 w-auto object-contain" />
+            <div className="space-y-1">
+              <span className="text-2xl font-serif text-slate-900 font-bold block">{projectInfo.companyName || "O.A.S. CONSTRUCTION GROUP"}</span>
+              <span className="text-xs font-mono text-slate-500 uppercase block tracking-wider">{projectInfo.companySubtitle || "Professional Quantity Surveying & Structural Takeoff Solutions"}</span>
+            </div>
           </div>
           <div className="text-right text-xs text-slate-500 space-y-1 leading-relaxed">
             <p className="font-semibold text-slate-800">Proposal Date: {projectInfo.date}</p>

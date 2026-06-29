@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ConcreteElement, MaterialItem, DivisionCost } from "../types";
 import { Plus, Trash2, Layers, HardHat, FileText, CheckCircle, HelpCircle, ArrowUp, ArrowDown } from "lucide-react";
 import { calculateConcreteVolume, calculateConcreteMaterials, calculateConcreteRebar, REBAR_KG_PER_M } from "../utils/calculations";
@@ -8,6 +8,41 @@ interface ConcreteEstimatorProps {
   materials: MaterialItem[];
   onChange: (elements: ConcreteElement[]) => void;
   divisionCost?: DivisionCost;
+}
+
+interface DecimalInputProps {
+  value: number;
+  step: string;
+  className: string;
+  onValueChange: (value: number) => void;
+}
+
+function DecimalInput({ value, step, className, onValueChange }: DecimalInputProps) {
+  const [draft, setDraft] = useState(String(value));
+
+  useEffect(() => {
+    setDraft(String(value));
+  }, [value]);
+
+  return (
+    <input
+      type="number"
+      inputMode="decimal"
+      min="0"
+      step={step}
+      value={draft}
+      onChange={(event) => {
+        const nextDraft = event.target.value;
+        setDraft(nextDraft);
+        const nextValue = Number(nextDraft);
+        if (nextDraft !== "" && Number.isFinite(nextValue)) {
+          onValueChange(nextValue);
+        }
+      }}
+      onBlur={() => setDraft(String(value))}
+      className={className}
+    />
+  );
 }
 
 export default function ConcreteEstimator({ elements, materials, onChange, divisionCost }: ConcreteEstimatorProps) {
@@ -168,12 +203,10 @@ export default function ConcreteEstimator({ elements, materials, onChange, divis
 
                   {/* Width */}
                   <td className="px-2 py-3">
-                    <input
-                      type="number"
-                      step="0.05"
-                      disabled={item.category === "Columns" || item.category === "Beams"}
+                    <DecimalInput
                       value={item.width}
-                      onChange={(e) => handleElementChange(item.id, "width", Number(e.target.value) || 0)}
+                      step="0.01"
+                      onValueChange={(value) => handleElementChange(item.id, "width", value)}
                       className="w-14 bg-amber-50 disabled:bg-slate-100 disabled:opacity-50 rounded-md py-1.5 px-1.5 focus:bg-white border border-slate-150 text-right font-mono"
                     />
                   </td>

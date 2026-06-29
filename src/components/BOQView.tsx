@@ -32,6 +32,20 @@ export default function BOQView({ projectInfo, divisionTotals }: BOQViewProps) {
 
   return (
     <div className="bg-white border border-slate-100 rounded-xl p-6 shadow-xs space-y-6" id="boq-sheet">
+      <div className="print-header hidden print:flex justify-between items-start border-b-2 border-slate-900 pb-3">
+        <div className="flex items-center gap-4">
+          <img src="/LOGO-STRUCF.png" alt="StrucForge logo" className="h-14 w-auto object-contain" />
+          <div>
+            <p className="text-xl font-bold text-slate-900">{projectInfo.companyName || "O.A.S. CONSTRUCTION GROUP"}</p>
+            <p className="text-xs uppercase text-slate-500">{projectInfo.companySubtitle || "Professional Quantity Surveying & Structural Takeoff Solutions"}</p>
+          </div>
+        </div>
+        <div className="text-right text-xs text-slate-600">
+          <p className="font-semibold">{projectInfo.projectName}</p>
+          <p>{projectInfo.date}</p>
+        </div>
+      </div>
+
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
         <div>
           <h3 className="font-sans font-semibold text-slate-900 text-lg">Detailed Bill of Quantities (BOQ)</h3>

@@ -99,7 +99,7 @@ export default function ProjectInfoView({ projectInfo, onChange }: ProjectInfoVi
               <label className="text-xs text-slate-700 font-medium block">Company Letterhead Name</label>
               <input
                 type="text"
-                placeholder="e.g. PHILIPPINES ESTIMATES INC."
+                placeholder="e.g. O.A.S. CONSTRUCTION GROUP"
                 value={projectInfo.companyName || ""}
                 onChange={(e) => handleInputChange("companyName", e.target.value)}
                 className="w-full bg-slate-50 focus:bg-white border border-slate-200 focus:border-blue-500 rounded-lg py-2 pl-3 pr-3 text-sm text-slate-800 outline-hidden transition font-sans"
