@@ -215,20 +215,20 @@ export default function DashboardView({
   // Division chart bars
   const totalDivVal = directCostTotal || 1;
   const categories = [
-    { label: "03 - Concrete Works", val: divisionTotals.concrete.total, color: "bg-blue-600" },
-    { label: "04 - Formworks & Scaffolding", val: divisionTotals.formworks.total, color: "bg-emerald-600" },
-    { label: "05 - CHB Masonry", val: divisionTotals.chb.total, color: "bg-orange-500" },
-    { label: "09 - Tiling Works", val: divisionTotals.tiles.total, color: "bg-indigo-600" },
-    { label: "08 - Doors & Windows", val: divisionTotals.doorsWindows.total, color: "bg-rose-500" },
-    { label: "07 - Roofing & Trusses", val: divisionTotals.roofing.total, color: "bg-amber-500" },
-    { label: "09B - Painting Works", val: divisionTotals.painting.total, color: "bg-teal-500" }
-  ].sort((a, b) => b.val - a.val);
+    { label: "Div 01 - Concrete Works", val: divisionTotals.concrete.total, color: "bg-blue-600" },
+    { label: "Div 02 - Formworks & Scaffolding", val: divisionTotals.formworks.total, color: "bg-emerald-600" },
+    { label: "Div 03 - CHB Masonry", val: divisionTotals.chb.total, color: "bg-orange-500" },
+    { label: "Div 04 - Roofing & Trusses", val: divisionTotals.roofing.total, color: "bg-amber-500" },
+    { label: "Div 05 - Doors & Windows", val: divisionTotals.doorsWindows.total, color: "bg-rose-500" },
+    { label: "Div 06 - Tiling Works", val: divisionTotals.tiles.total, color: "bg-indigo-600" },
+    { label: "Div 07 - Painting Works", val: divisionTotals.painting.total, color: "bg-teal-500" }
+  ];
 
   return (
     <div className="space-y-6" id="dashboard-tab">
       
       {/* KPI Cards Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 print:hidden">
         
         {/* KPI 1 */}
         <div className="bg-[#1e293b] text-white p-5 rounded-xl shadow-xs flex items-center justify-between" id="kpi-grand-total">
@@ -288,7 +288,7 @@ export default function DashboardView({
       </div>
 
       {/* Main Grid: Division Breakdown & Sidebar Project Profile */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 print:hidden">
         
         {/* Cost Distribution Chart */}
         <div className="bg-white border border-slate-100 rounded-xl p-6 shadow-xs lg:col-span-2 space-y-5" id="cost-takeoff-bars">
@@ -324,7 +324,7 @@ export default function DashboardView({
         </div>
 
         {/* Quick actions & Profile */}
-        <div className="bg-white border border-slate-100 rounded-xl p-6 shadow-xs flex flex-col justify-between space-y-6" id="dashboard-sidebar-profile">
+        <div className="bg-white border border-slate-100 rounded-xl p-6 shadow-xs flex flex-col justify-between space-y-6 print:hidden" id="dashboard-sidebar-profile">
           <div className="space-y-4">
             <h4 className="font-sans font-semibold text-slate-900 border-b border-slate-100 pb-2">Export & Print Actions</h4>
             
@@ -449,49 +449,49 @@ export default function DashboardView({
           </thead>
           <tbody>
             <tr className="border-b border-slate-100">
-              <td className="py-3 font-medium text-slate-900">Division 03 - Reinforced Concrete Works</td>
+              <td className="py-3 font-medium text-slate-900">Div 01 - Reinforced Concrete Works</td>
               <td className="py-3 text-right font-mono text-slate-600">₱{divisionTotals.concrete.materials.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
               <td className="py-3 text-right font-mono text-orange-600">₱{divisionTotals.concrete.labor.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
               <td className="py-3 text-right font-mono text-slate-700 font-semibold">₱{divisionTotals.concrete.total.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
               <td className="py-3 text-right text-slate-500">{((divisionTotals.concrete.total / totalDivVal)*100).toFixed(1)}%</td>
             </tr>
             <tr className="border-b border-slate-100">
-              <td className="py-3 font-medium text-slate-900">Division 04 - Formworks & Scaffoldings</td>
+              <td className="py-3 font-medium text-slate-900">Div 02 - Formworks & Scaffoldings</td>
               <td className="py-3 text-right font-mono text-slate-600">₱{divisionTotals.formworks.materials.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
               <td className="py-3 text-right font-mono text-orange-600">₱{divisionTotals.formworks.labor.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
               <td className="py-3 text-right font-mono text-slate-700 font-semibold">₱{divisionTotals.formworks.total.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
               <td className="py-3 text-right text-slate-500">{((divisionTotals.formworks.total / totalDivVal)*100).toFixed(1)}%</td>
             </tr>
             <tr className="border-b border-slate-100">
-              <td className="py-3 font-medium text-slate-900">Division 05 - CHB Walls Masonry & Plaster</td>
+              <td className="py-3 font-medium text-slate-900">Div 03 - CHB Walls Masonry & Plaster</td>
               <td className="py-3 text-right font-mono text-slate-600">₱{divisionTotals.chb.materials.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
               <td className="py-3 text-right font-mono text-orange-600">₱{divisionTotals.chb.labor.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
               <td className="py-3 text-right font-mono text-slate-700 font-semibold">₱{divisionTotals.chb.total.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
               <td className="py-3 text-right text-slate-500">{((divisionTotals.chb.total / totalDivVal)*100).toFixed(1)}%</td>
             </tr>
             <tr className="border-b border-slate-100">
-              <td className="py-3 font-medium text-slate-900">Division 09A - Floors & Walls Tilings</td>
-              <td className="py-3 text-right font-mono text-slate-600">₱{divisionTotals.tiles.materials.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
-              <td className="py-3 text-right font-mono text-orange-600">₱{divisionTotals.tiles.labor.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
-              <td className="py-3 text-right font-mono text-slate-700 font-semibold">₱{divisionTotals.tiles.total.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
-              <td className="py-3 text-right text-slate-500">{((divisionTotals.tiles.total / totalDivVal)*100).toFixed(1)}%</td>
+              <td className="py-3 font-medium text-slate-900">Div 04 - Roofing Framework & Trusses</td>
+              <td className="py-3 text-right font-mono text-slate-600">₱{divisionTotals.roofing.materials.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
+              <td className="py-3 text-right font-mono text-orange-600">₱{divisionTotals.roofing.labor.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
+              <td className="py-3 text-right font-mono text-slate-700 font-semibold">₱{divisionTotals.roofing.total.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
+              <td className="py-3 text-right text-slate-500">{((divisionTotals.roofing.total / totalDivVal)*100).toFixed(1)}%</td>
             </tr>
             <tr className="border-b border-slate-100">
-              <td className="py-3 font-medium text-slate-900">Division 08 - Openings: Doors & Windows</td>
+              <td className="py-3 font-medium text-slate-900">Div 05 - Openings: Doors & Windows</td>
               <td className="py-3 text-right font-mono text-slate-600">₱{divisionTotals.doorsWindows.materials.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
               <td className="py-3 text-right font-mono text-orange-600">₱{divisionTotals.doorsWindows.labor.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
               <td className="py-3 text-right font-mono text-slate-700 font-semibold">₱{divisionTotals.doorsWindows.total.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
               <td className="py-3 text-right text-slate-500">{((divisionTotals.doorsWindows.total / totalDivVal)*100).toFixed(1)}%</td>
             </tr>
             <tr className="border-b border-slate-100">
-              <td className="py-3 font-medium text-slate-900">Division 07 - Roofing Framework & Trusses</td>
-              <td className="py-3 text-right font-mono text-slate-600">₱{divisionTotals.roofing.materials.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
-              <td className="py-3 text-right font-mono text-orange-600">₱{divisionTotals.roofing.labor.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
-              <td className="py-3 text-right font-mono text-slate-700 font-semibold">₱{divisionTotals.roofing.total.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
-              <td className="py-3 text-right text-slate-500">{((divisionTotals.roofing.total / totalDivVal)*100).toFixed(1)}%</td>
+              <td className="py-3 font-medium text-slate-900">Div 06 - Floors & Walls Tilings</td>
+              <td className="py-3 text-right font-mono text-slate-600">₱{divisionTotals.tiles.materials.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
+              <td className="py-3 text-right font-mono text-orange-600">₱{divisionTotals.tiles.labor.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
+              <td className="py-3 text-right font-mono text-slate-700 font-semibold">₱{divisionTotals.tiles.total.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
+              <td className="py-3 text-right text-slate-500">{((divisionTotals.tiles.total / totalDivVal)*100).toFixed(1)}%</td>
             </tr>
             <tr className="border-b-2 border-slate-300">
-              <td className="py-3 font-medium text-slate-900">Division 09B - Protective Painting Works</td>
+              <td className="py-3 font-medium text-slate-900">Div 07 - Protective Painting Works</td>
               <td className="py-3 text-right font-mono text-slate-600">₱{divisionTotals.painting.materials.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
               <td className="py-3 text-right font-mono text-orange-600">₱{divisionTotals.painting.labor.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
               <td className="py-3 text-right font-mono text-slate-700 font-semibold">₱{divisionTotals.painting.total.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>

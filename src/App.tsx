@@ -656,7 +656,7 @@ export default function App() {
                   className={`w-full flex items-center gap-2.5 py-2 px-3 rounded-lg text-left transition cursor-pointer text-[13px] ${activeTab === "concrete" ? "bg-white border border-slate-300 shadow-sm font-semibold text-orange-600" : "text-slate-600 hover:bg-slate-200 hover:text-slate-900"}`}
                 >
                   <Activity className="w-4 h-4" />
-                  Div 03 - Concrete Works
+                  Div 01 - Concrete Works
                 </button>
 
                 {/* formworks */}
@@ -665,7 +665,7 @@ export default function App() {
                   className={`w-full flex items-center gap-2.5 py-2 px-3 rounded-lg text-left transition cursor-pointer text-[13px] ${activeTab === "formwork" ? "bg-white border border-slate-300 shadow-sm font-semibold text-orange-600" : "text-slate-600 hover:bg-slate-200 hover:text-slate-900"}`}
                 >
                   <Layers className="w-4 h-4" />
-                  Div 04 - Formworks & Scaf
+                  Div 02 - Formworks & Scaf
                 </button>
 
                 {/* chb */}
@@ -674,25 +674,7 @@ export default function App() {
                   className={`w-full flex items-center gap-2.5 py-2 px-3 rounded-lg text-left transition cursor-pointer text-[13px] ${activeTab === "chb" ? "bg-white border border-slate-300 shadow-sm font-semibold text-orange-600" : "text-slate-600 hover:bg-slate-200 hover:text-slate-900"}`}
                 >
                   <HardHat className="w-4 h-4" />
-                  Div 05 - Masonry CHB Walls
-                </button>
-
-                {/* tiling */}
-                <button
-                  onClick={() => { setActiveTab("tiles"); setMobileMenuOpen(false); }}
-                  className={`w-full flex items-center gap-2.5 py-2 px-3 rounded-lg text-left transition cursor-pointer text-[13px] ${activeTab === "tiles" ? "bg-white border border-slate-300 shadow-sm font-semibold text-orange-600" : "text-slate-600 hover:bg-slate-200 hover:text-slate-900"}`}
-                >
-                  <Wrench className="w-4 h-4" />
-                  Div 09A - Finishing Tiling
-                </button>
-
-                {/* Openings */}
-                <button
-                  onClick={() => { setActiveTab("doorsWindows"); setMobileMenuOpen(false); }}
-                  className={`w-full flex items-center gap-2.5 py-2 px-3 rounded-lg text-left transition cursor-pointer text-[13px] ${activeTab === "doorsWindows" ? "bg-white border border-slate-300 shadow-sm font-semibold text-orange-600" : "text-slate-600 hover:bg-slate-200 hover:text-slate-900"}`}
-                >
-                  <Home className="w-4 h-4" />
-                  Div 08 - Openings Schedule
+                  Div 03 - Masonry CHB Walls
                 </button>
 
                 {/* roofing */}
@@ -701,7 +683,25 @@ export default function App() {
                   className={`w-full flex items-center gap-2.5 py-2 px-3 rounded-lg text-left transition cursor-pointer text-[13px] ${activeTab === "roofing" ? "bg-white border border-slate-300 shadow-sm font-semibold text-orange-600" : "text-slate-600 hover:bg-slate-200 hover:text-slate-900"}`}
                 >
                   <Construction className="w-4 h-4" />
-                  Div 07 - Roofing Systems
+                  Div 04 - Roofing Systems
+                </button>
+
+                {/* Openings */}
+                <button
+                  onClick={() => { setActiveTab("doorsWindows"); setMobileMenuOpen(false); }}
+                  className={`w-full flex items-center gap-2.5 py-2 px-3 rounded-lg text-left transition cursor-pointer text-[13px] ${activeTab === "doorsWindows" ? "bg-white border border-slate-300 shadow-sm font-semibold text-orange-600" : "text-slate-600 hover:bg-slate-200 hover:text-slate-900"}`}
+                >
+                  <Home className="w-4 h-4" />
+                  Div 05 - Openings Schedule
+                </button>
+
+                {/* tiling */}
+                <button
+                  onClick={() => { setActiveTab("tiles"); setMobileMenuOpen(false); }}
+                  className={`w-full flex items-center gap-2.5 py-2 px-3 rounded-lg text-left transition cursor-pointer text-[13px] ${activeTab === "tiles" ? "bg-white border border-slate-300 shadow-sm font-semibold text-orange-600" : "text-slate-600 hover:bg-slate-200 hover:text-slate-900"}`}
+                >
+                  <Wrench className="w-4 h-4" />
+                  Div 06 - Finishing Tiling
                 </button>
 
                 {/* painting */}
@@ -710,7 +710,7 @@ export default function App() {
                   className={`w-full flex items-center gap-2.5 py-2 px-3 rounded-lg text-left transition cursor-pointer text-[13px] ${activeTab === "painting" ? "bg-white border border-slate-300 shadow-sm font-semibold text-orange-600" : "text-slate-600 hover:bg-slate-200 hover:text-slate-900"}`}
                 >
                   <Paintbrush className="w-4 h-4" />
-                  Div 09B - Painting Works
+                  Div 07 - Painting Works
                 </button>
 
               </nav>
@@ -918,13 +918,13 @@ export default function App() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
-                  { tab: "concrete" as const, title: "Division 03 - Concrete Works", desc: "Calculate concrete volume, Class A/B/C cement, sand, gravel, and steel rebar specifications.", icon: Activity, total: divisionTotals.concrete.total },
-                  { tab: "formwork" as const, title: "Division 04 - Formworks & Scaffolds", desc: "Estimate marine plywood sheets, coco lumber studs, nails, and scaffolding duration.", icon: Layers, total: divisionTotals.formworks.total },
-                  { tab: "chb" as const, title: "Division 05 - Masonry CHB Walls", desc: "Compute 4\" or 6\" concrete hollow blocks (CHB), mortar cement/sand, and vertical/horizontal bars.", icon: HardHat, total: divisionTotals.chb.total },
-                  { tab: "tiles" as const, title: "Division 09A - Finishing & Tiling", desc: "Design floor or wall tiles (30x30, 40x40, 60x60, 80x80 cm), adhesive bags, and grout.", icon: Wrench, total: divisionTotals.tiles.total },
-                  { tab: "doorsWindows" as const, title: "Division 08 - Doors & Windows", desc: "Input sliding, awning, flush door schedules, and calculate material and installation costs.", icon: Home, total: divisionTotals.doorsWindows.total },
-                  { tab: "roofing" as const, title: "Division 07 - Roofing Systems", desc: "Estimate rib-type long span, purlins count, angle bars, bubble foil insulation, and gutter lengths.", icon: Construction, total: divisionTotals.roofing.total },
-                  { tab: "painting" as const, title: "Division 09B - Painting Works", desc: "Input interior/exterior wall areas, primer, semi-gloss topcoats, joint compound putty, and painters fee.", icon: Paintbrush, total: divisionTotals.painting.total },
+                  { tab: "concrete" as const, title: "Div 01 - Concrete Works", desc: "Calculate concrete volume, Class A/B/C cement, sand, gravel, and steel rebar specifications.", icon: Activity, total: divisionTotals.concrete.total },
+                  { tab: "formwork" as const, title: "Div 02 - Formworks & Scaffolds", desc: "Estimate marine plywood sheets, coco lumber studs, nails, and scaffolding duration.", icon: Layers, total: divisionTotals.formworks.total },
+                  { tab: "chb" as const, title: "Div 03 - Masonry CHB Walls", desc: "Compute 4\" or 6\" concrete hollow blocks (CHB), mortar cement/sand, and vertical/horizontal bars.", icon: HardHat, total: divisionTotals.chb.total },
+                  { tab: "roofing" as const, title: "Div 04 - Roofing Systems", desc: "Estimate rib-type long span, purlins count, angle bars, bubble foil insulation, and gutter lengths.", icon: Construction, total: divisionTotals.roofing.total },
+                  { tab: "doorsWindows" as const, title: "Div 05 - Doors & Windows", desc: "Input sliding, awning, flush door schedules, and calculate material and installation costs.", icon: Home, total: divisionTotals.doorsWindows.total },
+                  { tab: "tiles" as const, title: "Div 06 - Finishing & Tiling", desc: "Design floor or wall tiles (30x30, 40x40, 60x60, 80x80 cm), adhesive bags, and grout.", icon: Wrench, total: divisionTotals.tiles.total },
+                  { tab: "painting" as const, title: "Div 07 - Painting Works", desc: "Input interior/exterior wall areas, primer, semi-gloss topcoats, joint compound putty, and painters fee.", icon: Paintbrush, total: divisionTotals.painting.total },
                 ].map((item, idx) => {
                   const Icon = item.icon;
                   return (

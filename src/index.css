@@ -29,16 +29,12 @@
   }
 
   #printable-proposal-preview {
-    padding-top: 88px !important;
+    padding-top: 0 !important;
   }
 
   #printable-proposal-preview .print-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    position: static;
     padding: 0 0 12px;
     background: #ffffff;
-    z-index: 10;
   }
 }

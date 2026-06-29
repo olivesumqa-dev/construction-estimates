@@ -65,10 +65,10 @@ export default function BOQView({ projectInfo, divisionTotals }: BOQViewProps) {
               
               {/* DIVISION 3 */}
               <tr className="bg-slate-50 hover:bg-slate-100 cursor-pointer h-9 font-semibold text-slate-800" onClick={() => toggleDiv("div-3")}>
-                <td className="px-4 py-2">Item 1.0</td>
+                <td className="px-4 py-2">Div 01</td>
                 <td className="px-4 py-2 flex items-center gap-1">
                   {expandedDivs["div-3"] ? <ChevronDown className="w-3.5 h-3.5 text-slate-500" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-500" />}
-                  DIVISION 03 - REINFORCED CONCRETE WORKS
+                  DIV 01 - REINFORCED CONCRETE WORKS
                 </td>
                 <td className="px-4 py-2 text-center text-slate-500 font-mono">Structural Lump</td>
                 <td className="px-4 py-2 text-right font-mono font-bold text-slate-900">{formatCurrency(divisionTotals.concrete.total)}</td>
@@ -89,10 +89,10 @@ export default function BOQView({ projectInfo, divisionTotals }: BOQViewProps) {
 
               {/* DIVISION 4 */}
               <tr className="bg-slate-50 hover:bg-slate-100 cursor-pointer h-9 font-semibold text-slate-800" onClick={() => toggleDiv("div-4")}>
-                <td className="px-4 py-2">Item 2.0</td>
+                <td className="px-4 py-2">Div 02</td>
                 <td className="px-4 py-2 flex items-center gap-1">
                   {expandedDivs["div-4"] ? <ChevronDown className="w-3.5 h-3.5 text-slate-500" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-500" />}
-                  DIVISION 04 - TEMPORARY FORMWORKS & SCAFFOLDINGS
+                  DIV 02 - TEMPORARY FORMWORKS & SCAFFOLDINGS
                 </td>
                 <td className="px-4 py-2 text-center text-slate-500 font-mono">Lump Area</td>
                 <td className="px-4 py-2 text-right font-mono font-bold text-slate-900">{formatCurrency(divisionTotals.formworks.total)}</td>
@@ -113,10 +113,10 @@ export default function BOQView({ projectInfo, divisionTotals }: BOQViewProps) {
 
               {/* DIVISION 05 */}
               <tr className="bg-slate-50 hover:bg-slate-100 cursor-pointer h-9 font-semibold text-slate-800" onClick={() => toggleDiv("div-5")}>
-                <td className="px-4 py-2">Item 3.0</td>
+                <td className="px-4 py-2">Div 03</td>
                 <td className="px-4 py-2 flex items-center gap-1">
                   {expandedDivs["div-5"] ? <ChevronDown className="w-3.5 h-3.5 text-slate-500" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-500" />}
-                  DIVISION 05 - CONCRETE HOLLOW BLOCKS (CHB) WALLS
+                  DIV 03 - CONCRETE HOLLOW BLOCKS (CHB) WALLS
                 </td>
                 <td className="px-4 py-2 text-center text-slate-500 font-mono">Masonry Lump</td>
                 <td className="px-4 py-2 text-right font-mono font-bold text-slate-900">{formatCurrency(divisionTotals.chb.total)}</td>
@@ -135,60 +135,12 @@ export default function BOQView({ projectInfo, divisionTotals }: BOQViewProps) {
                 </tr>
               )}
 
-              {/* DIVISION 09 Tiling */}
-              <tr className="bg-slate-50 hover:bg-slate-100 cursor-pointer h-9 font-semibold text-slate-800" onClick={() => toggleDiv("div-9a")}>
-                <td className="px-4 py-2">Item 4.0</td>
-                <td className="px-4 py-2 flex items-center gap-1">
-                  {expandedDivs["div-9a"] ? <ChevronDown className="w-3.5 h-3.5 text-slate-500" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-500" />}
-                  DIVISION 09A - TILES & FINISHING SURFACE PLACEMENTS
-                </td>
-                <td className="px-4 py-2 text-center text-slate-500 font-mono">Finishing Lump</td>
-                <td className="px-4 py-2 text-right font-mono font-bold text-slate-900">{formatCurrency(divisionTotals.tiles.total)}</td>
-              </tr>
-              {expandedDivs["div-9a"] && (
-                <tr className="bg-slate-50/20 text-slate-500">
-                  <td className="px-5 py-2 flex flex-col gap-1">
-                    <span className="text-[10px] text-blue-700 font-bold">Mat: {formatCurrency(divisionTotals.tiles.materials)}</span>
-                    <span className="text-[10px] text-orange-600 font-bold">Lab: {formatCurrency(divisionTotals.tiles.labor)}</span>
-                  </td>
-                  <td className="px-5 py-2 pl-8 leading-relaxed">
-                    Includes homogeneous/porcelain floor tiling (60x60 / 80x80 cm), bedroom ceramic tiles, bathroom wet wall layouts, stair steps laying, high-grade tile adhesive binders, joint grout pigments, and corner protective plastic/brass trims.
-                  </td>
-                  <td className="px-4 py-2 text-center font-mono">sq.m. Layers</td>
-                  <td className="px-4 py-2"></td>
-                </tr>
-              )}
-
-              {/* DIVISION 08 Openings */}
-              <tr className="bg-slate-50 hover:bg-slate-150 cursor-pointer h-9 font-semibold text-slate-800" onClick={() => toggleDiv("div-8")}>
-                <td className="px-4 py-2">Item 5.0</td>
-                <td className="px-4 py-2 flex items-center gap-1">
-                  {expandedDivs["div-8"] ? <ChevronDown className="w-3.5 h-3.5 text-slate-500" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-500" />}
-                  DIVISION 08 - WOOD DOORS & GLASS WINDOW FRAME SECTIONS
-                </td>
-                <td className="px-4 py-2 text-center text-slate-500 font-mono">Openings Lump</td>
-                <td className="px-4 py-2 text-right font-mono font-bold text-slate-900">{formatCurrency(divisionTotals.doorsWindows.total)}</td>
-              </tr>
-              {expandedDivs["div-8"] && (
-                <tr className="bg-slate-50/20 text-slate-500">
-                  <td className="px-5 py-2 flex flex-col gap-1">
-                    <span className="text-[10px] text-blue-700 font-bold">Mat: {formatCurrency(divisionTotals.doorsWindows.materials)}</span>
-                    <span className="text-[10px] text-orange-600 font-bold">Lab: {formatCurrency(divisionTotals.doorsWindows.labor)}</span>
-                  </td>
-                  <td className="px-5 py-2 pl-8 leading-relaxed">
-                    Includes solid timber panel main doors, MDF bedroom flush doors, waterproof PVC toilet panels, aluminum sliding glass windows, toilet awning glass configurations, hinges hardware assembly locks, anchoring, and installation.
-                  </td>
-                  <td className="px-4 py-2 text-center font-mono">Sets Layout</td>
-                  <td className="px-4 py-2"></td>
-                </tr>
-              )}
-
               {/* DIVISION 07 Roofing */}
               <tr className="bg-slate-50 hover:bg-slate-100 cursor-pointer h-9 font-semibold text-slate-800" onClick={() => toggleDiv("div-7")}>
-                <td className="px-4 py-2">Item 6.0</td>
+                <td className="px-4 py-2">Div 04</td>
                 <td className="px-4 py-2 flex items-center gap-1">
                   {expandedDivs["div-7"] ? <ChevronDown className="w-3.5 h-3.5 text-slate-500" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-500" />}
-                  DIVISION 07 - STEEL TRUSS STRUCTURAL SYSTEM & ROOF COVERS
+                  DIV 04 - STEEL TRUSS STRUCTURAL SYSTEM & ROOF COVERS
                 </td>
                 <td className="px-4 py-2 text-center text-slate-500 font-mono">Roofing Lump</td>
                 <td className="px-4 py-2 text-right font-mono font-bold text-slate-900">{formatCurrency(divisionTotals.roofing.total)}</td>
@@ -207,12 +159,60 @@ export default function BOQView({ projectInfo, divisionTotals }: BOQViewProps) {
                 </tr>
               )}
 
+              {/* DIVISION 08 Openings */}
+              <tr className="bg-slate-50 hover:bg-slate-150 cursor-pointer h-9 font-semibold text-slate-800" onClick={() => toggleDiv("div-8")}>
+                <td className="px-4 py-2">Div 05</td>
+                <td className="px-4 py-2 flex items-center gap-1">
+                  {expandedDivs["div-8"] ? <ChevronDown className="w-3.5 h-3.5 text-slate-500" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-500" />}
+                  DIV 05 - WOOD DOORS & GLASS WINDOW FRAME SECTIONS
+                </td>
+                <td className="px-4 py-2 text-center text-slate-500 font-mono">Openings Lump</td>
+                <td className="px-4 py-2 text-right font-mono font-bold text-slate-900">{formatCurrency(divisionTotals.doorsWindows.total)}</td>
+              </tr>
+              {expandedDivs["div-8"] && (
+                <tr className="bg-slate-50/20 text-slate-500">
+                  <td className="px-5 py-2 flex flex-col gap-1">
+                    <span className="text-[10px] text-blue-700 font-bold">Mat: {formatCurrency(divisionTotals.doorsWindows.materials)}</span>
+                    <span className="text-[10px] text-orange-600 font-bold">Lab: {formatCurrency(divisionTotals.doorsWindows.labor)}</span>
+                  </td>
+                  <td className="px-5 py-2 pl-8 leading-relaxed">
+                    Includes solid timber panel main doors, MDF bedroom flush doors, waterproof PVC toilet panels, aluminum sliding glass windows, toilet awning glass configurations, hinges hardware assembly locks, anchoring, and installation.
+                  </td>
+                  <td className="px-4 py-2 text-center font-mono">Sets Layout</td>
+                  <td className="px-4 py-2"></td>
+                </tr>
+              )}
+
+              {/* DIVISION 09 Tiling */}
+              <tr className="bg-slate-50 hover:bg-slate-100 cursor-pointer h-9 font-semibold text-slate-800" onClick={() => toggleDiv("div-9a")}>
+                <td className="px-4 py-2">Div 06</td>
+                <td className="px-4 py-2 flex items-center gap-1">
+                  {expandedDivs["div-9a"] ? <ChevronDown className="w-3.5 h-3.5 text-slate-500" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-500" />}
+                  DIV 06 - TILES & FINISHING SURFACE PLACEMENTS
+                </td>
+                <td className="px-4 py-2 text-center text-slate-500 font-mono">Finishing Lump</td>
+                <td className="px-4 py-2 text-right font-mono font-bold text-slate-900">{formatCurrency(divisionTotals.tiles.total)}</td>
+              </tr>
+              {expandedDivs["div-9a"] && (
+                <tr className="bg-slate-50/20 text-slate-500">
+                  <td className="px-5 py-2 flex flex-col gap-1">
+                    <span className="text-[10px] text-blue-700 font-bold">Mat: {formatCurrency(divisionTotals.tiles.materials)}</span>
+                    <span className="text-[10px] text-orange-600 font-bold">Lab: {formatCurrency(divisionTotals.tiles.labor)}</span>
+                  </td>
+                  <td className="px-5 py-2 pl-8 leading-relaxed">
+                    Includes homogeneous/porcelain floor tiling (60x60 / 80x80 cm), bedroom ceramic tiles, bathroom wet wall layouts, stair steps laying, high-grade tile adhesive binders, joint grout pigments, and corner protective plastic/brass trims.
+                  </td>
+                  <td className="px-4 py-2 text-center font-mono">sq.m. Layers</td>
+                  <td className="px-4 py-2"></td>
+                </tr>
+              )}
+
               {/* DIVISION 09B Painting */}
               <tr className="bg-slate-50 hover:bg-slate-100 cursor-pointer h-9 font-semibold text-slate-800" onClick={() => toggleDiv("div-9b")}>
-                <td className="px-4 py-2">Item 7.0</td>
+                <td className="px-4 py-2">Div 07</td>
                 <td className="px-4 py-2 flex items-center gap-1">
                   {expandedDivs["div-9b"] ? <ChevronDown className="w-3.5 h-3.5 text-slate-500" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-500" />}
-                  DIVISION 09B - SURFACE PROTECTIVE COATING & PAINTING
+                  DIV 07 - SURFACE PROTECTIVE COATING & PAINTING
                 </td>
                 <td className="px-4 py-2 text-center text-slate-500 font-mono">Finishes Lump</td>
                 <td className="px-4 py-2 text-right font-mono font-bold text-slate-900">{formatCurrency(divisionTotals.painting.total)}</td>
