@@ -90,6 +90,8 @@ type DefaultEstimateTemplate = {
 };
 
 const DEFAULT_ESTIMATE = defaultEstimateData as DefaultEstimateTemplate;
+const DEFAULT_ESTIMATE_VERSION = `${(defaultEstimateData as { exportedAt?: string }).exportedAt ?? "001-JUN29"}:${DEFAULT_ESTIMATE.projectInfo.projectName}`;
+const DEFAULT_ESTIMATE_VERSION_KEY = "strucforge_default_estimate_version";
 
 const cloneTemplate = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 
@@ -103,6 +105,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [isOnline, setIsOnline] = useState(window.navigator.onLine);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const shouldUseBundledDefault = localStorage.getItem(DEFAULT_ESTIMATE_VERSION_KEY) !== DEFAULT_ESTIMATE_VERSION;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -127,17 +130,17 @@ export default function App() {
   // Core Engineering States
   const [projectInfo, setProjectInfo] = useState<ProjectInfo>(() => {
     const saved = localStorage.getItem("estim_projectInfo");
-    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.projectInfo);
+    return saved && !shouldUseBundledDefault ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.projectInfo);
   });
 
   const [materials, setMaterials] = useState<MaterialItem[]>(() => {
     const saved = localStorage.getItem("estim_materials");
-    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.materials);
+    return saved && !shouldUseBundledDefault ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.materials);
   });
 
   const [labor, setLabor] = useState<LaborItem[]>(() => {
     const saved = localStorage.getItem("estim_labor");
-    if (saved) {
+    if (saved && !shouldUseBundledDefault) {
       const parsed = JSON.parse(saved) as LaborItem[];
       const merged = [...parsed];
       DEFAULT_ESTIMATE.labor.forEach((d) => {
@@ -152,7 +155,7 @@ export default function App() {
 
   const [equipment, setEquipment] = useState<EquipmentItem[]>(() => {
     const saved = localStorage.getItem("estim_equipment");
-    if (saved) {
+    if (saved && !shouldUseBundledDefault) {
       const parsed = JSON.parse(saved) as EquipmentItem[];
       const merged = [...parsed];
       DEFAULT_ESTIMATE.equipment.forEach((d) => {
@@ -167,38 +170,42 @@ export default function App() {
 
   const [concrete, setConcrete] = useState<ConcreteElement[]>(() => {
     const saved = localStorage.getItem("estim_concrete");
-    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.concrete);
+    return saved && !shouldUseBundledDefault ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.concrete);
   });
 
   const [formworks, setFormworks] = useState<FormworkElement[]>(() => {
     const saved = localStorage.getItem("estim_formworks");
-    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.formworks);
+    return saved && !shouldUseBundledDefault ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.formworks);
   });
 
   const [chb, setChb] = useState<CHBWallElement[]>(() => {
     const saved = localStorage.getItem("estim_chb");
-    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.chb);
+    return saved && !shouldUseBundledDefault ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.chb);
   });
 
   const [tiles, setTiles] = useState<TileElement[]>(() => {
     const saved = localStorage.getItem("estim_tiles");
-    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.tiles);
+    return saved && !shouldUseBundledDefault ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.tiles);
   });
 
   const [doorsWindows, setDoorsWindows] = useState<DoorWindowElement[]>(() => {
     const saved = localStorage.getItem("estim_doorsWindows");
-    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.doorsWindows);
+    return saved && !shouldUseBundledDefault ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.doorsWindows);
   });
 
   const [roofing, setRoofing] = useState<RoofingElement[]>(() => {
     const saved = localStorage.getItem("estim_roofing");
-    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.roofing);
+    return saved && !shouldUseBundledDefault ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.roofing);
   });
 
   const [painting, setPainting] = useState<PaintingElement[]>(() => {
     const saved = localStorage.getItem("estim_painting");
-    return saved ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.painting);
+    return saved && !shouldUseBundledDefault ? JSON.parse(saved) : cloneTemplate(DEFAULT_ESTIMATE.painting);
   });
+
+  useEffect(() => {
+    localStorage.setItem(DEFAULT_ESTIMATE_VERSION_KEY, DEFAULT_ESTIMATE_VERSION);
+  }, []);
 
   // Automatically persist state changes in LocalStorage
   useEffect(() => {

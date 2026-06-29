@@ -405,12 +405,9 @@ export default function DashboardView({
         
         {/* Internal Header */}
         <div className="print-header flex justify-between items-start border-b-2 border-slate-900 pb-4">
-          <div className="flex items-center gap-4">
-            <img src="/LOGO-STRUCF.png" alt="StrucForge logo" className="h-14 w-auto object-contain" />
-            <div className="space-y-1">
-              <span className="text-2xl font-serif text-slate-900 font-bold block">{projectInfo.companyName || "O.A.S. CONSTRUCTION GROUP"}</span>
-              <span className="text-xs font-mono text-slate-500 uppercase block tracking-wider">{projectInfo.companySubtitle || "Professional Quantity Surveying & Structural Takeoff Solutions"}</span>
-            </div>
+          <div className="space-y-1">
+            <span className="text-2xl font-serif text-slate-900 font-bold block">{projectInfo.companyName || "O.A.S. CONSTRUCTION GROUP"}</span>
+            <span className="text-xs font-mono text-slate-500 uppercase block tracking-wider">{projectInfo.companySubtitle || "Professional Quantity Surveying & Structural Takeoff Solutions"}</span>
           </div>
           <div className="text-right text-xs text-slate-500 space-y-1 leading-relaxed">
             <p className="font-semibold text-slate-800">Proposal Date: {projectInfo.date}</p>
