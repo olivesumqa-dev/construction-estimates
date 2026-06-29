@@ -28,7 +28,19 @@
     background: #ffffff;
   }
 
+  #construction-estimator-root,
+  #construction-estimator-root main {
+    display: block !important;
+    width: 100% !important;
+  }
+
   #printable-proposal-preview {
+    box-sizing: border-box;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     padding-top: 0 !important;
   }
 
@@ -39,7 +51,10 @@
   }
 
   #printable-proposal-preview .proposal-title {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     text-align: center !important;
     margin-left: auto;
@@ -48,6 +63,17 @@
 
   #printable-proposal-preview .proposal-title h2,
   #printable-proposal-preview .proposal-title p {
+    display: block;
+    width: 100%;
     text-align: center !important;
+  }
+
+  #printable-proposal-preview .overflow-x-auto {
+    overflow: visible !important;
+  }
+
+  #printable-proposal-preview table {
+    min-width: 0 !important;
+    width: 100% !important;
   }
 }
