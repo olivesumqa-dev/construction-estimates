@@ -956,7 +956,7 @@ export default function App() {
       </div>
 
       {/* 3. MOBILE BOTTOM NAVIGATION TAB BAR */}
-      <nav className="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-slate-200 flex items-center justify-around md:hidden px-2 py-1 z-40 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] select-none">
+      <nav className="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-slate-200 flex items-center justify-around md:hidden px-2 py-1 z-40 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] select-none print:hidden">
         <button
           onClick={() => setActiveTab("dashboard")}
           className={`flex flex-col items-center justify-center flex-1 py-1 gap-1 cursor-pointer transition-colors ${activeTab === "dashboard" ? "text-orange-600 font-semibold" : "text-slate-500 hover:text-slate-900"}`}

@@ -416,7 +416,7 @@ export default function DashboardView({
         </div>
 
         {/* Title */}
-        <div className="text-center py-4 space-y-1">
+        <div className="proposal-title text-center py-4 space-y-1">
           <h2 className="text-xl font-sans font-bold text-slate-900 uppercase tracking-tight block">Construction Cost Takeoff Proposal</h2>
           <p className="text-xs text-slate-500">Subject Project: {projectInfo.projectName}</p>
         </div>

@@ -37,4 +37,17 @@
     padding: 0 0 12px;
     background: #ffffff;
   }
+
+  #printable-proposal-preview .proposal-title {
+    display: block;
+    width: 100%;
+    text-align: center !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #printable-proposal-preview .proposal-title h2,
+  #printable-proposal-preview .proposal-title p {
+    text-align: center !important;
+  }
 }
